@@ -226,6 +226,10 @@
   }
   .addbtn:hover{background:var(--ink); color:var(--paper)}
   .del{border:none; background:none; color:#7c1f1f; font-weight:bold; cursor:pointer}
+  td.act{white-space:nowrap; text-align:right}
+  .drag-handle{display:inline-block; cursor:grab; color:#b0a894; font-size:.82rem; line-height:1; padding:0 3px; user-select:none; vertical-align:middle}
+  .drag-handle:active{cursor:grabbing}
+  tr.dragging{opacity:.4; background:rgba(0,0,0,.06)}
 
   .corr-sum{font-size:.72rem; font-variant:small-caps; text-align:right; padding:2px 6px 0}
   textarea.notes{width:100%; min-height:40px; padding:5px 6px; font-size:.76rem; resize:vertical; overflow:hidden}
@@ -439,7 +443,7 @@
             <div class="mini-grid">
               <div><div class="mlbl">Punkty Przeznaczenia</div><input type="number" data-k="pp"></div>
               <div><div class="mlbl">Punkty Szczęścia</div><input type="number" data-k="psz"></div>
-              <div><div class="mlbl">Łaska Tzeentcha</div><input type="number" data-k="laska_tzeentch"></div>
+              <div><div class="mlbl">Przysługa Tzeentcha</div><input type="number" data-k="przysluga_tzeentch"></div>
             </div>
           </div>
           <div class="box">
@@ -494,7 +498,7 @@
       <div class="box">
         <div class="sect-title">Talenty</div>
         <table id="talentsTable">
-          <thead><tr><th class="l" style="width:27%">Talent</th><th style="width:9%">Poz</th><th class="l" style="width:18%">PS</th><th class="l">Opis</th><th style="width:18px"></th></tr></thead>
+          <thead><tr><th class="l" style="width:27%">Talent</th><th style="width:9%">Poz</th><th class="l" style="width:18%">PS</th><th class="l">Opis</th><th style="width:40px"></th></tr></thead>
           <tbody></tbody>
         </table>
         <button class="addbtn" onclick="addTalent()">＋ dodaj talent</button>
@@ -505,7 +509,7 @@
         <div class="box">
           <div class="sect-title">Talenty</div>
           <table id="talentsTable2">
-            <thead><tr><th class="l" style="width:27%">Talent</th><th style="width:9%">Poz</th><th class="l" style="width:18%">PS</th><th class="l">Opis</th><th style="width:18px"></th></tr></thead>
+            <thead><tr><th class="l" style="width:27%">Talent</th><th style="width:9%">Poz</th><th class="l" style="width:18%">PS</th><th class="l">Opis</th><th style="width:40px"></th></tr></thead>
             <tbody></tbody>
           </table>
         </div>
@@ -540,7 +544,7 @@
       <div class="vsep" aria-hidden="true"><svg viewBox="0 0 26 700" preserveAspectRatio="none"><use href="#inkbarV"/></svg></div>
       <div class="box">
         <div class="sect-title">Umiejętności zaawansowane</div>
-        <table class="skills adv" id="skillsC"><thead><tr><th class="l">Nazwa</th><th style="width:58px">Cecha</th><th style="width:34px">Roz</th><th style="width:40px">Suma</th><th style="width:20px"></th></tr></thead><tbody></tbody></table>
+        <table class="skills adv" id="skillsC"><thead><tr><th class="l">Nazwa</th><th style="width:58px">Cecha</th><th style="width:34px">Roz</th><th style="width:40px">Suma</th><th style="width:40px"></th></tr></thead><tbody></tbody></table>
         <button class="addbtn" onclick="addAdvSkill()">＋ dodaj umiejętność</button>
       </div>
     </div>
@@ -564,7 +568,7 @@
       <div class="box">
         <div class="sect-title">Pancerz</div>
         <table id="armorTable">
-          <thead><tr><th class="l" style="width:30%">Nazwa</th><th>Lokacja</th><th style="width:44px">PP</th><th class="l">Cechy</th><th style="width:24px"></th></tr></thead>
+          <thead><tr><th class="l" style="width:30%">Nazwa</th><th>Lokacja</th><th style="width:44px">PP</th><th class="l">Cechy</th><th style="width:40px"></th></tr></thead>
           <tbody></tbody>
         </table>
         <button class="addbtn" onclick="addRow('armorTable',['txt','txt','num','txt'])">＋ dodaj pancerz</button>
@@ -587,7 +591,7 @@
       <div class="box">
         <div class="sect-title">Wyposażenie</div>
         <table id="gearTable">
-          <thead><tr><th class="l">Nazwa</th><th style="width:48px">Ilość</th><th style="width:24px"></th></tr></thead>
+          <thead><tr><th class="l">Nazwa</th><th style="width:48px">Ilość</th><th style="width:40px"></th></tr></thead>
           <tbody></tbody>
         </table>
         <button class="addbtn" onclick="addRow('gearTable',['txt','num'])">＋ dodaj przedmiot</button>
@@ -598,7 +602,7 @@
         <div class="box">
           <div class="sect-title">Psychologia</div>
           <table id="psychTable">
-            <thead><tr><th class="l">Nazwa / efekt</th><th style="width:24px"></th></tr></thead>
+            <thead><tr><th class="l">Nazwa / efekt</th><th style="width:40px"></th></tr></thead>
             <tbody></tbody>
           </table>
           <button class="addbtn" onclick="addRow('psychTable',['txt'])">＋ dodaj wpis</button>
@@ -606,7 +610,7 @@
         <div class="box">
           <div class="sect-title">Zepsucie i mutacje</div>
           <table id="corrTable">
-            <thead><tr><th style="width:42px">Pkt</th><th class="l">Źródło / mutacja</th><th style="width:24px"></th></tr></thead>
+            <thead><tr><th style="width:42px">Pkt</th><th class="l">Źródło / mutacja</th><th style="width:40px"></th></tr></thead>
             <tbody></tbody>
           </table>
           <div class="corr-sum">Suma punktów zepsucia: <b id="corrSuma">—</b></div>
@@ -631,7 +635,7 @@
         </div>
         <div class="sect-title">Reputacja</div>
         <table id="reputTable">
-          <thead><tr><th class="l">Grupa / frakcja</th><th class="l">Reputacja</th><th style="width:24px"></th></tr></thead>
+          <thead><tr><th class="l">Grupa / frakcja</th><th class="l">Reputacja</th><th style="width:40px"></th></tr></thead>
           <tbody></tbody>
         </table>
         <button class="addbtn" onclick="addRow('reputTable',['txt','txt'])">＋ dodaj wpis</button>
@@ -667,7 +671,7 @@
       <div class="box">
         <div class="sect-title">Broń</div>
         <table id="weaponsTable">
-          <thead><tr><th class="l" style="width:18%">Nazwa</th><th style="width:13%">Kategoria</th><th style="width:11%">Zasięg</th><th style="width:12%">Obrażenia</th><th class="l">Cechy</th><th style="width:24px"></th></tr></thead>
+          <thead><tr><th class="l" style="width:18%">Nazwa</th><th style="width:13%">Kategoria</th><th style="width:11%">Zasięg</th><th style="width:12%">Obrażenia</th><th class="l">Cechy</th><th style="width:40px"></th></tr></thead>
           <tbody></tbody>
         </table>
         <button class="addbtn" onclick="addRow('weaponsTable',['txt','txt','txt','txt','txt'])">＋ dodaj broń</button>
@@ -679,7 +683,7 @@
       <div class="box">
         <div class="sect-title">Czary i modlitwy</div>
         <table id="spellsTable">
-          <thead><tr><th class="l" style="width:16%">Nazwa</th><th style="width:6%">PZ</th><th style="width:10%">Zasięg</th><th style="width:6%">Cel</th><th style="width:12%">Czas trwania</th><th class="l">Efekt</th><th style="width:24px"></th></tr></thead>
+          <thead><tr><th class="l" style="width:16%">Nazwa</th><th style="width:6%">PZ</th><th style="width:10%">Zasięg</th><th style="width:6%">Cel</th><th style="width:12%">Czas trwania</th><th class="l">Efekt</th><th style="width:40px"></th></tr></thead>
           <tbody></tbody>
         </table>
         <button class="addbtn" onclick="addRow('spellsTable',['txt','num','txt','txt','txt','txt'])">＋ dodaj zaklęcie</button>
@@ -705,7 +709,7 @@
       <div class="box">
         <div class="sect-title">Rozwój</div>
         <table id="devTable">
-          <thead><tr><th class="l">Nazwa</th><th style="width:52px">PD</th><th style="width:24px"></th></tr></thead>
+          <thead><tr><th class="l">Nazwa</th><th style="width:52px">PD</th><th style="width:40px"></th></tr></thead>
           <tbody></tbody>
         </table>
         <div class="corr-sum">Suma: <b id="devSuma">—</b></div>
@@ -715,7 +719,7 @@
       <div class="box">
         <div class="sect-title">Zyski</div>
         <table id="gainTable">
-          <thead><tr><th class="l" style="width:26%">Źródło</th><th style="width:52px">PD</th><th class="l">Notatka</th><th style="width:24px"></th></tr></thead>
+          <thead><tr><th class="l" style="width:26%">Źródło</th><th style="width:52px">PD</th><th class="l">Notatka</th><th style="width:40px"></th></tr></thead>
           <tbody></tbody>
         </table>
         <div class="corr-sum">Suma: <b id="gainSuma">—</b></div>
@@ -777,7 +781,7 @@ function advSkillRow(name="", cecha="Int", rozw=""){
     <td><select class="sk-cecha" onchange="recalc()">${opts}</select></td>
     <td><input type="number" class="sk-rozw" value="${rozw}" oninput="recalc()"></td>
     <td class="calc sk-sum">—</td>
-    <td><button class="del" onclick="this.closest('tr').remove(); recalc()">✕</button></td>
+    <td class="act"><span class="drag-handle" draggable="true" title="Przeciągnij, aby zmienić kolejność">⠿</span><button class="del" onclick="this.closest('tr').remove(); recalc()">✕</button></td>
   </tr>`;
 }
 function addAdvSkill(name, cecha, rozw){
@@ -787,6 +791,9 @@ function addAdvSkill(name, cecha, rozw){
 SKILLS_C_DEFAULT.forEach(([n,c])=>addAdvSkill(n,c));
 
 /* ---- tabele generyczne ---- */
+const SORTABLE_TABLES = new Set(["talentsTable","talentsTable2","armorTable","gearTable","weaponsTable","spellsTable","skillsC","corrTable","psychTable","reputTable","devTable","gainTable"]);
+const dragHandleHTML = tableId => SORTABLE_TABLES.has(tableId)
+  ? `<span class="drag-handle" draggable="true" title="Przeciągnij, aby zmienić kolejność">⠿</span>` : "";
 function addRow(tableId, kinds, values=[]){
   const cells = kinds.map((k,i)=>{
     const v = values[i] ?? "";
@@ -795,7 +802,7 @@ function addRow(tableId, kinds, values=[]){
       : `<td class="l"><div class="ce" contenteditable="true">${esc(v)}</div></td>`;
   }).join("");
   document.querySelector(`#${tableId} tbody`).insertAdjacentHTML("beforeend",
-    `<tr>${cells}<td><button class="del" onclick="delRow(this)">✕</button></td></tr>`);
+    `<tr>${cells}<td class="act">${dragHandleHTML(tableId)}<button class="del" onclick="delRow(this)">✕</button></td></tr>`);
 }
 ["talentsTable","armorTable","gearTable","weaponsTable","spellsTable"].forEach(id=>{
   const kinds = {talentsTable:["txt","num","txt","txt"], talentsTable2:["txt","num","txt","txt"], armorTable:["txt","txt","num","txt"], psychTable:["txt"], corrTable:["num","txt"], devTable:["txt","num"], gainTable:["txt","num","txt"], reputTable:["txt","txt"],
@@ -832,6 +839,53 @@ function delRow(btn){
   recalc();
 }
 redistributeTalents();
+
+/* ---- zmiana kolejności wierszy (drag & drop) ---- */
+let dragRow = null, dragGroup = null;
+function rowAfterY(tbody, y){
+  const rows = [...tbody.querySelectorAll("tr:not(.dragging)")];
+  let best = null, bestOffset = -Infinity;
+  for(const r of rows){
+    const box = r.getBoundingClientRect();
+    const offset = y - box.top - box.height/2;
+    if(offset < 0 && offset > bestOffset){ bestOffset = offset; best = r; }
+  }
+  return best;
+}
+function enableReorder(tbody, group){
+  tbody.dataset.dragGroup = group;
+  tbody.addEventListener("dragstart", e=>{
+    const h = e.target.closest(".drag-handle");
+    if(!h){ if(e.target.closest("td")) e.preventDefault(); return; }
+    dragRow = h.closest("tr"); dragGroup = group;
+    e.dataTransfer.effectAllowed = "move";
+    try{ e.dataTransfer.setData("text/plain",""); }catch(_){}
+    const tr = dragRow; setTimeout(()=>tr.classList.add("dragging"), 0);
+  });
+  tbody.addEventListener("dragover", e=>{
+    if(!dragRow || tbody.dataset.dragGroup !== dragGroup) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    const after = rowAfterY(tbody, e.clientY);
+    if(after == null){ if(dragRow !== tbody.lastElementChild) tbody.appendChild(dragRow); }
+    else if(after !== dragRow){ tbody.insertBefore(dragRow, after); }
+  });
+  tbody.addEventListener("drop", e=>{
+    if(dragRow && tbody.dataset.dragGroup === dragGroup) e.preventDefault();
+  });
+}
+document.addEventListener("dragend", ()=>{
+  if(!dragRow) return;
+  dragRow.classList.remove("dragging");
+  const g = dragGroup;
+  dragRow = null; dragGroup = null;
+  if(g === "talents") redistributeTalents();
+  recalc(); autosave();
+});
+enableReorder(document.querySelector("#talentsTable tbody"), "talents");
+enableReorder(document.querySelector("#talentsTable2 tbody"), "talents");
+["armorTable","gearTable","weaponsTable","spellsTable","skillsC","corrTable","psychTable","reputTable","devTable","gainTable"].forEach(id=>
+  enableReorder(document.querySelector(`#${id} tbody`), id));
 
 /* ---- obliczenia ---- */
 function sumCol(tableId, colIndex){
