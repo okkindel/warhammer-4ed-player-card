@@ -84,8 +84,9 @@
   td input{font-size:.64rem}
   .del{font-size:.75rem; padding:0}
 
-  .field{display:flex; align-items:baseline; gap:6px; border-bottom:1px solid var(--ink); padding:1px 2px 1px; font-size:.74rem}
-  .field b{font-variant:small-caps; letter-spacing:.05em; white-space:nowrap; font-weight:bold}
+  .field{display:flex; align-items:flex-start; gap:6px; border-bottom:1px solid var(--ink); padding:1px 2px 1px; font-size:.74rem}
+  .field b{font-variant:small-caps; letter-spacing:.05em; white-space:nowrap; font-weight:bold; line-height:1.35}
+  .field textarea{resize:none; min-height:16px; font-size:.74rem; line-height:1.35; padding:0 2px; overflow:hidden}
 
   /* ======== NAGŁÓWEK: WSTĘGA + PORTRET ======== */
   .header{display:grid; grid-template-columns:1.15fr .85fr; gap:0; background:var(--paper)}
@@ -411,16 +412,16 @@
           </svg>
         </div>
         <div class="hfields">
-          <div class="field wide"><b>Imię</b><input id="imie" oninput="onName()"></div>
-          <div class="field"><b>Profesja</b><input data-k="profesja"></div>
-          <div class="field"><b>Ścieżka profesji</b><input data-k="sciezka"></div>
-          <div class="field"><b>Rasa</b><input data-k="rasa"></div>
-          <div class="field"><b>Poziom profesji</b><input data-k="poziom"></div>
-          <div class="field"><b>Wiek</b><input data-k="wiek"></div>
-          <div class="field"><b>Znak gwiezdny</b><input data-k="znak"></div>
-          <div class="field"><b>Status</b><input data-k="status"></div>
-          <div class="field"><b>Oczy</b><input data-k="oczy"></div>
-          <div class="field"><b>Włosy</b><input data-k="wlosy"></div>
+          <div class="field wide"><b>Imię</b><textarea id="imie" rows="1" oninput="onName()"></textarea></div>
+          <div class="field"><b>Profesja</b><textarea data-k="profesja" rows="1"></textarea></div>
+          <div class="field"><b>Ścieżka profesji</b><textarea data-k="sciezka" rows="1"></textarea></div>
+          <div class="field"><b>Rasa</b><textarea data-k="rasa" rows="1"></textarea></div>
+          <div class="field"><b>Poziom profesji</b><textarea data-k="poziom" rows="1"></textarea></div>
+          <div class="field"><b>Wiek</b><textarea data-k="wiek" rows="1"></textarea></div>
+          <div class="field"><b>Znak gwiezdny</b><textarea data-k="znak" rows="1"></textarea></div>
+          <div class="field"><b>Status</b><textarea data-k="status" rows="1"></textarea></div>
+          <div class="field"><b>Oczy</b><textarea data-k="oczy" rows="1"></textarea></div>
+          <div class="field"><b>Włosy</b><textarea data-k="wlosy" rows="1"></textarea></div>
           <div class="field wrozba-f"><b>Wróżba losu</b><textarea data-k="wrozba" rows="1"></textarea></div>
         </div>
 
@@ -612,8 +613,8 @@
           <button class="addbtn" onclick="addRow('corrTable',['num','txt'])">＋ dodaj wpis</button>
         </div>
         <div class="box">
-          <div class="sect-title">Obłęd</div>
-          <textarea class="notes" data-k="obled"></textarea>
+          <div class="sect-title">Punkty obłędu</div>
+          <div style="padding:4px 8px 6px"><input type="number" data-k="obled" style="width:100%;text-align:center"></div>
         </div>
       </div>
 
@@ -622,12 +623,18 @@
         <div class="sect-title">Drużyna</div>
         <div style="padding:4px 8px 6px">
           <div class="dlbl">Ambicja drużynowa krótkoterminowa</div>
-          <textarea class="notes" data-k="dr_kr" style="min-height:26px"></textarea>
+          <textarea class="notes" data-k="dr_kr" style="min-height:40px"></textarea>
           <div class="dlbl">Ambicja drużynowa długoterminowa</div>
-          <textarea class="notes" data-k="dr_dl" style="min-height:26px"></textarea>
+          <textarea class="notes" data-k="dr_dl" style="min-height:40px"></textarea>
           <div class="dlbl">Członkowie drużyny</div>
           <textarea class="notes" data-k="dr_czl" style="min-height:40px"></textarea>
         </div>
+        <div class="sect-title">Reputacja</div>
+        <table id="reputTable">
+          <thead><tr><th class="l">Grupa / frakcja</th><th class="l">Reputacja</th><th style="width:24px"></th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <button class="addbtn" onclick="addRow('reputTable',['txt','txt'])">＋ dodaj wpis</button>
       </div>
     </div>
 
@@ -791,7 +798,7 @@ function addRow(tableId, kinds, values=[]){
     `<tr>${cells}<td><button class="del" onclick="delRow(this)">✕</button></td></tr>`);
 }
 ["talentsTable","armorTable","gearTable","weaponsTable","spellsTable"].forEach(id=>{
-  const kinds = {talentsTable:["txt","num","txt","txt"], talentsTable2:["txt","num","txt","txt"], armorTable:["txt","txt","num","txt"], psychTable:["txt"], corrTable:["num","txt"], devTable:["txt","num"], gainTable:["txt","num","txt"],
+  const kinds = {talentsTable:["txt","num","txt","txt"], talentsTable2:["txt","num","txt","txt"], armorTable:["txt","txt","num","txt"], psychTable:["txt"], corrTable:["num","txt"], devTable:["txt","num"], gainTable:["txt","num","txt"], reputTable:["txt","txt"],
                  gearTable:["txt","num"], weaponsTable:["txt","txt","txt","txt","txt"],
                  spellsTable:["txt","num","txt","txt","txt","txt"]}[id];
   for(let i=0;i<3;i++) addRow(id, kinds);
@@ -919,7 +926,7 @@ function collectData(){
     twardziel:document.getElementById("twardziel").value, maxObc:document.getElementById("maxObc").value,
     obcGear:document.getElementById("obcGearIn").value, obcPancerz:document.getElementById("obcPancerzIn").value,
     portrait:portraitData,
-    talents:[...tableData("talentsTable"), ...tableData("talentsTable2")], armor:tableData("armorTable"), gear:tableData("gearTable"), psych:tableData("psychTable"), corr:tableData("corrTable"), dev:tableData("devTable"), gain:tableData("gainTable"),
+    talents:[...tableData("talentsTable"), ...tableData("talentsTable2")], armor:tableData("armorTable"), gear:tableData("gearTable"), psych:tableData("psychTable"), corr:tableData("corrTable"), dev:tableData("devTable"), gain:tableData("gainTable"), reput:tableData("reputTable"),
     weapons:tableData("weaponsTable"), spells:tableData("spellsTable"),
     skillsA:tableData("skillsA"), skillsB:tableData("skillsB"), skillsC:tableData("skillsC") };
   document.querySelectorAll("[data-k]").forEach(el=>d.meta[el.dataset.k]=el.value);
@@ -1047,7 +1054,7 @@ function applyData(d){
   restoreFixed("skillsA", d.skillsA); restoreFixed("skillsB", d.skillsB);
   const cBody = document.querySelector("#skillsC tbody"); cBody.innerHTML="";
   (d.skillsC||[]).forEach(row=>addAdvSkill(row[0],row[1],row[2]));
-  const kinds = {talentsTable:["txt","num","txt","txt"], talentsTable2:["txt","num","txt","txt"], armorTable:["txt","txt","num","txt"], psychTable:["txt"], corrTable:["num","txt"], devTable:["txt","num"], gainTable:["txt","num","txt"],
+  const kinds = {talentsTable:["txt","num","txt","txt"], talentsTable2:["txt","num","txt","txt"], armorTable:["txt","txt","num","txt"], psychTable:["txt"], corrTable:["num","txt"], devTable:["txt","num"], gainTable:["txt","num","txt"], reputTable:["txt","txt"],
                  gearTable:["txt","num"], weaponsTable:["txt","txt","txt","txt","txt"],
                  spellsTable:["txt","num","txt","txt","txt","txt"]};
   const fill=(id,key)=>{ const b=document.querySelector(`#${id} tbody`); b.innerHTML="";
@@ -1059,7 +1066,7 @@ function applyData(d){
   if(Array.isArray(d.armor)) d.armor = d.armor.map(r=> r.length===5 ? [r[0],r[1],r[3],r[4]] : r);
   if(!d.psych && d.meta?.psychologia) d.psych = d.meta.psychologia.split(/\n|(?<=\))\.\s*/).map(t=>[t.trim()]).filter(r=>r[0]);
   if(!d.corr && d.meta?.zepsucie) d.corr = d.meta.zepsucie.split(/[,\n]/).map(t=>{const m=t.trim().match(/^(\d+)\s*[–-]\s*(.+)$/); return m?[m[1],m[2]]:["",t.trim()];}).filter(r=>r[1]);
-  fill("armorTable","armor"); fill("gearTable","gear"); fill("psychTable","psych"); fill("corrTable","corr"); fill("devTable","dev"); fill("gainTable","gain");
+  fill("armorTable","armor"); fill("gearTable","gear"); fill("psychTable","psych"); fill("corrTable","corr"); fill("devTable","dev"); fill("gainTable","gain"); fill("reputTable","reput");
   fill("weaponsTable","weapons"); fill("spellsTable","spells");
   recalc();
   autoGrowAll();
